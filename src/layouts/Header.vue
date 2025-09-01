@@ -1,40 +1,29 @@
 <template>
   <header class="header">
     <div class="header-container">
-      <!-- Logo/Brand -->
       <div class="header-brand">
         <router-link to="/" class="brand-link">
           <h1 class="brand-title">MovieHub</h1>
         </router-link>
       </div>
 
-      <!-- Navigation Menu -->
       <nav class="header-nav" :class="{ 'nav-open': isMobileMenuOpen }">
         <ul class="nav-list">
-          <li class="nav-item">
-            <router-link to="/" class="nav-link" @click="closeMobileMenu">
-              Home
+          <li class="nav-item" v-for="menu in menus" :key="menu.name">
+            <router-link :to="menu.path" class="nav-link" @click="closeMobileMenu">
+              {{ menu.name }}
             </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link to="/movies" class="nav-link" @click="closeMobileMenu">
-              Movies
-            </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link to="/tv-shows" class="nav-link" @click="closeMobileMenu">
-              TV Shows
-            </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link to="/genres" class="nav-link" @click="closeMobileMenu">
-              Genres
-            </router-link>
+            <ul class="drop-down" v-if="menu.children">
+              <li class="nav-item-drop" v-for="children in menu.children" :key="children.name">
+                <router-link :to="`${menu.path}/${children.path}`" class="nav-link" @click="closeMobileMenu">
+                  {{ children.name }}
+                </router-link>
+              </li>
+            </ul>
           </li>
         </ul>
       </nav>
 
-      <!-- Search Bar -->
       <div class="header-search">
         <div class="search-container">
           <input
@@ -54,7 +43,6 @@
         </div>
       </div>
 
-      <!-- User Actions -->
       <div class="header-actions">
         <button class="action-button" @click="toggleTheme">
           <svg class="action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -62,15 +50,8 @@
             <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
           </svg>
         </button>
-        <button class="action-button" @click="toggleUserMenu">
-          <svg class="action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-            <circle cx="12" cy="7" r="4"></circle>
-          </svg>
-        </button>
       </div>
 
-      <!-- Mobile Menu Toggle -->
       <button class="mobile-menu-toggle" @click="toggleMobileMenu">
         <span class="hamburger-line" :class="{ 'line-1': isMobileMenuOpen }"></span>
         <span class="hamburger-line" :class="{ 'line-2': isMobileMenuOpen }"></span>
@@ -81,25 +62,81 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
+import { getDataCategory, getDataCountry, getDataYear } from '@/services/HeaderServices'
+import {getDataHome} from '@/services/home/HomeServices'
 
 // Reactive data
 const searchQuery = ref('')
 const isMobileMenuOpen = ref(false)
 const isUserMenuOpen = ref(false)
+const dataCategory = ref([]);
+const dataCountry = ref([])
+const dataYear = ref([])
 
-// Methods
-const handleSearch = () => {
-  // Emit search event or handle search logic
-  console.log('Search query:', searchQuery.value)
-}
+onMounted(async () => {
+  const resCate = await getDataCategory();
+  dataCategory.value = resCate.data.items;
 
-const performSearch = () => {
-  if (searchQuery.value.trim()) {
-    // Perform search action
-    console.log('Performing search for:', searchQuery.value)
+  const resCountry = await getDataCountry();
+  dataCountry.value = resCountry.data.items;
+  
+  const resYear = await getDataYear();
+  dataYear.value = resYear.data.items;
+
+})
+const menus = computed(() => [
+  {
+    name: "Phim mới",
+    path: "/",
+  },
+  {
+    name: "Danh sách phim",
+    path: "/danh-sach",
+    children: [
+      { name: "Phim bộ", path: "/phim-bo" },
+      { name: "Phim lẻ", path: "/phim-le" },
+      { name: "TV Shows", path: "/tv-shows" },
+      { name: "Hoạt hình", path: "/hoat-hinh" },
+      { name: "Phim Vietsub", path: "/phim-vietsub" },
+      { name: "Phim thuyết minh", path: "/phim-thuyet-minh" },
+      { name: "Phim lồng tiếng", path: "/phim-long-tien" },
+      { name: "Phim bộ đang chiếu", path: "/phim-bo-dang-chieu" },
+      { name: "Phim bộ hoàn thành", path: "/phim-bo-hoan-thanh" },
+      { name: "Phim sắp chiếu", path: "/phim-sap-chieu" },
+      { name: "Subteam", path: "/subteam" },
+      { name: "Phim chiếu rạp", path: "/phim-chieu-rap" }
+    ]
+  },
+  {
+    name: "Thể loại",
+    path: "/the-loai",
+    children: dataCategory.value.map((item) => ({
+      id: item._id,
+      name: item.name,
+      path: item.slug,
+    }))
+  },
+  {
+    name: "Quốc gia",
+    path: "quoc-gia",
+    children: dataCountry.value.map((item) => ({
+      id: item._id,
+      name: item.name,
+      path: item.slug,
+    }))
+  },
+  {
+    name: "Năm",
+    path: "nam",
+    children: dataYear.value.map((item) => ({
+      id: item._id,
+      name: item.year,
+      path: item.year,
+    }))
   }
-}
+])
+
 
 const toggleMobileMenu = () => {
   isMobileMenuOpen.value = !isMobileMenuOpen.value
@@ -126,7 +163,6 @@ const handleClickOutside = (event) => {
   }
 }
 
-// Lifecycle hooks
 onMounted(() => {
   document.addEventListener('click', handleClickOutside)
 })
@@ -134,11 +170,28 @@ onMounted(() => {
 onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside)
 })
+// // Methods
+// const handleSearch = () => {
+//   // Emit search event or handle search logic
+//   console.log('Search query:', searchQuery.value)
+// }
+
+// const performSearch = () => {
+//   if (searchQuery.value.trim()) {
+//     // Perform search action
+//     console.log('Performing search for:', searchQuery.value)
+//   }
+// }
 </script>
 
 <style scoped>
+ul, li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
 .header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #000;
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
@@ -146,7 +199,7 @@ onUnmounted(() => {
 }
 
 .header-container {
-  max-width: 1200px;
+  max-width: 100%;
   margin: 0 auto;
   padding: 0 20px;
   display: flex;
@@ -181,6 +234,7 @@ onUnmounted(() => {
 
 .nav-list {
   display: flex;
+  top: 0px;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -189,6 +243,7 @@ onUnmounted(() => {
 
 .nav-item {
   margin: 0;
+  position: relative;
 }
 
 .nav-link {
@@ -199,17 +254,37 @@ onUnmounted(() => {
   padding: 8px 16px;
   border-radius: 20px;
   transition: all 0.3s ease;
-  position: relative;
 }
 
-.nav-link:hover {
+/* .nav-link:hover {
   background: rgba(255, 255, 255, 0.2);
   transform: translateY(-2px);
+} */
+
+.nav-item:hover > .drop-down {
+  display: grid;
 }
 
-.nav-link.router-link-active {
-  background: rgba(255, 255, 255, 0.3);
-  font-weight: 600;
+.nav-link.router-link-active, .nav-link:hover {
+  color: #ff9601;
+}
+
+.drop-down {
+  list-style: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 200px;
+  display: none;
+  background: #000;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px 20px;
+  padding: 30px 10px 10px 10px;
+  opacity: 0.8;
+}
+
+.nav-item-drop {
+  min-width: max-content;
 }
 
 /* Search Styles */
