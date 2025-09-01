@@ -33,3 +33,31 @@ npm run build
 ```sh
 npm run lint
 ```
+# card movie: [
+#    "_id": "68adad87ac113ba52da3f77f",
+#               "name": "Tử Mạch Hồng Trần",
+#              "slug": "tu-mach-hong-tran",
+#             "origin_name": "Kill to Love",
+#            "type": "series",
+#           "thumb_url": "tu-mach-hong-tran-thumb.jpg",
+#          "sub_docquyen": true,
+#        "time": "35 phút/tập",
+#       "episode_current": "Tập 4",
+#       "quality": "HD",
+#       "lang": "Vietsub",
+#       "year": 2025,
+#       "category": [
+#           {
+#               "id": "620a21b2e0fc277084dfd0c5",
+#               "name": "Hành Động",
+#               "slug": "hanh-dong"
+#            },
+#            {
+#                "id": "620a2293e0fc277084dfd489",
+#                "name": "Phiêu Lưu",
+#                "slug": "phieu-luu"
+#            },
+#            {
+#                "id": "620f3d2b91fa4af90ab697fe",
+#                "name": "Chính kịch",
+#                "slug": "chinh-kich"

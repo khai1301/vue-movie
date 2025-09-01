@@ -19,6 +19,15 @@ const router = createRouter({
                     path: '',
                     name: 'home',
                     component: HomePage,
+                    meta: {
+                        breadcrumb: "Phim mới"
+                    }
+                },
+                {
+                    path: '/the-loai/:slug',
+                    name: 'category',
+                    component: HomePage,
+                    
                 }
             ],
         },

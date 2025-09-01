@@ -1,38 +1,31 @@
 <template>
-    <!-- <swiper
-        :modules="modules"
-        :loop="true"
-        :autoplay="{
-            delay: 3000,
-            disableOnInteraction: true
-        }"
-        direction="horizontal"
-    >
-        <swiper-slide v-for="img in listBanner" :key="img.id">
-            <div class="flex items-center justify-center">
-                <img :src="`${baseImageUrl}/${img}`" alt="">
+    <div class="container">
+        <div class="home-block">
+            <div class="banner">
+                <h1>{{ description }}</h1>
             </div>
-        </swiper-slide>
-    </swiper> -->
-    <div class="banner">
-        <h1>{{ description }}</h1>
+            <Heading :contentHeading="contentHeading"></Heading>
+            <BreadCrumb></BreadCrumb>
+        </div>
     </div>
 </template>
 <script setup>
 import { onMounted } from 'vue';
 import { getDataHome } from '@/services/home/HomeServices';
 import { ref } from 'vue';
-// import { Swiper, SwiperSlide} from 'swiper/vue';
-// import {Autoplay} from 'swiper/modules';
-// import 'swiper/css';
-// import 'swiper/css/autoplay'
-// const modules = [Autoplay];
+import Heading from '@/components/heading.vue';
+import BreadCrumb from '@/components/BreadCrumb.vue';
 
 const dataHome = ref([])
 const title = ref("")
 const description = ref("")
 const baseImageUrl = ref()
 const listBanner = ref([])
+const contentHeading = ref(
+{
+    heading: "Phim mới",
+})
+
 onMounted(async() => {
     const resHome = await getDataHome()
     dataHome.value = resHome.data
