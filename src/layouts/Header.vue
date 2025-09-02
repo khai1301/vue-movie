@@ -10,12 +10,12 @@
       <nav class="header-nav" :class="{ 'nav-open': isMobileMenuOpen }">
         <ul class="nav-list">
           <li class="nav-item" v-for="menu in menus" :key="menu.name">
-            <router-link :to="menu.path" class="nav-link" @click="closeMobileMenu">
+            <router-link :to="menu.slug" class="nav-link" @click="closeMobileMenu">
               {{ menu.name }}
             </router-link>
             <ul class="drop-down" v-if="menu.children">
               <li class="nav-item-drop" v-for="children in menu.children" :key="children.name">
-                <router-link :to="`${menu.path}/${children.path}`" class="nav-link" @click="closeMobileMenu">
+                <router-link :to="`${menu.slug}/${children.slug}`" class="nav-link" @click="closeMobileMenu">
                   {{ children.name }}
                 </router-link>
               </li>
@@ -88,51 +88,51 @@ onMounted(async () => {
 const menus = computed(() => [
   {
     name: "Phim mới",
-    path: "/",
+    slug: "/",
   },
   {
     name: "Danh sách phim",
-    path: "/danh-sach",
+    slug: "/danh-sach",
     children: [
-      { name: "Phim bộ", path: "/phim-bo" },
-      { name: "Phim lẻ", path: "/phim-le" },
-      { name: "TV Shows", path: "/tv-shows" },
-      { name: "Hoạt hình", path: "/hoat-hinh" },
-      { name: "Phim Vietsub", path: "/phim-vietsub" },
-      { name: "Phim thuyết minh", path: "/phim-thuyet-minh" },
-      { name: "Phim lồng tiếng", path: "/phim-long-tien" },
-      { name: "Phim bộ đang chiếu", path: "/phim-bo-dang-chieu" },
-      { name: "Phim bộ hoàn thành", path: "/phim-bo-hoan-thanh" },
-      { name: "Phim sắp chiếu", path: "/phim-sap-chieu" },
-      { name: "Subteam", path: "/subteam" },
-      { name: "Phim chiếu rạp", path: "/phim-chieu-rap" }
+      { name: "Phim bộ", slug: "phim-bo" },
+      { name: "Phim lẻ", slug: "phim-le" },
+      { name: "TV Shows", slug: "tv-shows" },
+      { name: "Hoạt hình", slug: "hoat-hinh" },
+      { name: "Phim Vietsub", slug: "phim-vietsub" },
+      { name: "Phim thuyết minh", slug: "phim-thuyet-minh" },
+      { name: "Phim lồng tiếng", slug: "phim-long-tien" },
+      { name: "Phim bộ đang chiếu", slug: "phim-bo-dang-chieu" },
+      { name: "Phim bộ hoàn thành", slug: "phim-bo-hoan-thanh" },
+      { name: "Phim sắp chiếu", slug: "phim-sap-chieu" },
+      { name: "Subteam", slug: "subteam" },
+      { name: "Phim chiếu rạp", slug: "phim-chieu-rap" }
     ]
   },
   {
     name: "Thể loại",
-    path: "/the-loai",
+    slug: "/the-loai",
     children: dataCategory.value.map((item) => ({
       id: item._id,
       name: item.name,
-      path: item.slug,
+      slug: item.slug,
     }))
   },
   {
     name: "Quốc gia",
-    path: "quoc-gia",
+    slug: "/quoc-gia",
     children: dataCountry.value.map((item) => ({
       id: item._id,
       name: item.name,
-      path: item.slug,
+      slug: item.slug,
     }))
   },
   {
     name: "Năm",
-    path: "nam",
+    slug: "/nam",
     children: dataYear.value.map((item) => ({
       id: item._id,
       name: item.year,
-      path: item.year,
+      slug: item.year,
     }))
   }
 ])

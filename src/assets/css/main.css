@@ -4,7 +4,11 @@
     --third-color: #ff9601;
 }
 body {
-    background: #161616;
+    background-image: url(../img/bg-image.png);
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     margin: 0;
     color: var(--primary-color);
     font-family: "Roboto Slab", sans-serif;
@@ -17,4 +21,14 @@ body {
 }
 ul, li {
     list-style: none;
+}
+a {
+    text-decoration: none;
+}
+.d-flex {
+    display: flex;
+}
+p {
+    padding: 0;
+    margin: 0;
 }
