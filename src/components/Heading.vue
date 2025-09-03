@@ -2,7 +2,7 @@
     <div class="heading-block">
         <div class="heading">
             <div class="caption">
-                {{ contentHeading.heading }}
+                {{ contentHeading.descriptionHead }}
             </div>
             <div class="filter-box">
                 <ul>

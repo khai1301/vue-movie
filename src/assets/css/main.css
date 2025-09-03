@@ -17,7 +17,7 @@ body {
     font-weight: 400;
 }
 .container {
-    padding: 0 50px;
+    padding: 0 200px;
 }
 ul, li {
     list-style: none;
@@ -31,4 +31,7 @@ a {
 p {
     padding: 0;
     margin: 0;
+}
+.loadMoreTrigger {
+    height: 100px;
 }

@@ -10,7 +10,10 @@
       <nav class="header-nav" :class="{ 'nav-open': isMobileMenuOpen }">
         <ul class="nav-list">
           <li class="nav-item" v-for="menu in menus" :key="menu.name">
-            <router-link :to="menu.slug" class="nav-link" @click="closeMobileMenu">
+            <router-link :to="menu.slug" class="nav-link" @click="closeMobileMenu" 
+            active-class=""
+            exact-active-class="" 
+            :class="{ 'router-link-active': isActiveParent(menu.slug) }">
               {{ menu.name }}
             </router-link>
             <ul class="drop-down" v-if="menu.children">
@@ -73,6 +76,17 @@ const isUserMenuOpen = ref(false)
 const dataCategory = ref([]);
 const dataCountry = ref([])
 const dataYear = ref([])
+
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+
+const isActiveParent = (parentSlug) => {
+  if (parentSlug === '/') {
+    return route.path === '/'
+  }
+  return route.path.startsWith(parentSlug)
+}
 
 onMounted(async () => {
   const resCate = await getDataCategory();

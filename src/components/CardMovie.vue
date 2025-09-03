@@ -2,7 +2,7 @@
     <div class="card-movie d-flex" v-for="item in dataMovieItems" :key="item.id">
         <a :href="item.slug" class="card-content-link d-flex">
         <div class="thumb">
-            <img :src="`${baseImageUrl}/uploads/movies/${item.thumbnail}`" alt="" class="thumb-img">
+            <img :src="`${getBaseImageUrl()}/uploads/movies/${item.thumbnail}`" alt="" class="thumb-img">
         </div>
         <div class="card-content">
                 <div class="card-content-top d-flex">
@@ -43,16 +43,13 @@
 
 <script setup>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { getBaseImageUrl } from '@/services/baseImageUrl';
 
 const props = defineProps({
     dataMovieItems: {
         type: Array,
         required: true
     },
-    baseImageUrl: {
-        type: String,
-        required: true
-    }
 })
 </script>
 <style scoped>
@@ -77,6 +74,7 @@ const props = defineProps({
     color: var(--primary-color);
     flex-wrap: wrap;
     gap: 5px;
+    flex: 1;
 }
 .card-movie span, .card-movie svg {
     color: var(--third-color);
@@ -107,12 +105,15 @@ const props = defineProps({
 }
 .card-content-mid {
     font-size: 12px;
+    flex: 1;
 }
 .card-content-top {
     font-size: 14px;
     gap: 5px;
-    min-height: 40px;
+    min-height: 70px;
+    flex: 1;
 }
+
 .card-movie .quality p, .card-movie .rate {
     flex-direction: row;
     align-items: center;

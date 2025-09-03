@@ -5,6 +5,9 @@
                 <a href="/">
                     <FontAwesomeIcon icon="house" />
                     <p>Phim mới</p>
+                    <div class="breadcrumb-child" v-for="bc in breadcrumb" :key="bc.name">
+                        <a v-if="bc.slug" href=""> > {{ bc.name }}</a>
+                    </div>
                 </a>
             </li>
             <!-- <li> > Phim hành động</li>
@@ -12,7 +15,14 @@
         </ol>
     </div>
 </template>
-<script setup></script>
+<script setup>
+defineProps({
+    breadcrumb: {
+        type: Array,
+        required: true
+    }
+})
+</script>
 <style scoped>
 ol {
     display: flex;

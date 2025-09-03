@@ -1,6 +1,6 @@
 <template>
     <div class="movie-section">
-        <CardMovie :dataMovieItems="dataMovieItems" :baseImageUrl="baseImageUrl"></CardMovie>
+        <CardMovie :dataMovieItems="dataMovieItems"></CardMovie>
     </div>
 </template>
 <script setup>
@@ -15,12 +15,8 @@ const props = defineProps({
         type: Array,
         required: true,
     },
-    baseImageUrl: {
-        type: String,
-        required: true
-    }
 })
-baseImageUrls.value = props.baseImageUrl
+// baseImageUrls.value = props.baseImageUrl
 watchEffect(() => {
     dataMovieItems.value = props.dataMovie.map(movie => ({
         "thumbnail": movie.thumb_url,
